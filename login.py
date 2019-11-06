@@ -1,4 +1,4 @@
-#name_list = ["Ahmad", "Hagar", "Aya", "Wesam", "Doaa"]
+# name_list = ["Ahmad", "Hagar", "Aya", "Wesam", "Doaa"]
 
 # return: username, size
 def get_username():
@@ -20,7 +20,7 @@ def write_name(username, size, name_list = 0):
 
 username, size = get_username()
 
-if(write_name(username, size)):
+if (write_name(username, size)):
     print("Successfully registerd!")
     print("Welcome " + username + "!")
 else:
