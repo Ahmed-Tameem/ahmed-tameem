@@ -1,21 +1,37 @@
 # return: username, size
-def get_username():
+def get_info():
     username = str(input("Enter your username: "))
-    size = len(username)
-    while size < 5:
-        username = str(input("Error your username has to be at least 5 characters "))
-        size = len(username)
-    return username, size
+    user_size = len(username)
+    while user_size < 5:
+        print("Your username has to be at least 5 characters!")
+        username = str(input("Try another username: "))
+        user_size = len(username)
+
+    password = str(input("Enter your password: "))
+    password_size = len(password)
+    while password_size < 5:
+        ("Your password has to be at least 5 characters!")
+        password = str(input("Try another password: "))
+        password_size = len(password)  
+
+    return username, password
 
 #return: 1 
-def write_name(username, size):
+def write_info(username, password):
     with open("data.txt", "a") as data_file:
-        data_file.write(username + "\n")
+        data_file.write(username + "\t")
+        data_file.write(password + "\n")
     return 1
 
-username, size = get_username()
+# class user:
+#     username
+#     password
 
-if (write_name(username, size)):
+
+
+username, password = get_info()
+
+if (write_info(username, password)):
     print("Successfully registerd!")
     print("Welcome " + username + "!")
 else:
