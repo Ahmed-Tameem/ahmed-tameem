@@ -25,28 +25,3 @@ if (write_name(username, size)):
     print("Welcome " + username + "!")
 else:
     print("Error registering your account")
-
-
-
-
-
-
-
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAA = 0
-
-
-
-
-
-
-
-
-
-
-
-# print("This is new list of users: ", name_list[0:])
-
-# for x in range(int(size)):
-#     if name_list[x] == username:
-#         print("Your  username is at index", x)
-
