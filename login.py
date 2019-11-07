@@ -1,5 +1,3 @@
-# name_list = ["Ahmad", "Hagar", "Aya", "Wesam", "Doaa"]
-
 # return: username, size
 def get_username():
     username = str(input("Enter your username: "))
@@ -10,12 +8,9 @@ def get_username():
     return username, size
 
 #return: 1 
-def write_name(username, size, name_list = 0):
+def write_name(username, size):
     with open("data.txt", "a") as data_file:
         data_file.write(username + "\n")
-    #size += 1
-    # name_list.append(username)
-    # name_list.sort()
     return 1
 
 username, size = get_username()
