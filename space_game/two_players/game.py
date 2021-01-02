@@ -391,7 +391,7 @@ def main():
 
     game_window = Screen()
     game_window.bgcolor("black")
-    game_window.title("The Bumpy Boi Game")
+    game_window.title("The Bouncy Space Ship Game")
     game_window.bgpic("background.gif")
 
     border = Border()
