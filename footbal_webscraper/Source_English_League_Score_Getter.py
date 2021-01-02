@@ -4,8 +4,8 @@
 #Comments: This was my first experiment with webscarping. After this, I started learning how to use APIs to scrape data.
 """
 
-import requests
 import csv
+import requests
 from bs4 import BeautifulSoup
 
 source = requests.get("https://www.skysports.com/premier-league-results").text  #Storing the webpage in text form.
@@ -26,4 +26,4 @@ for game in range(0,20,2):      #Writing the match results to the excel sheet af
     writer.writerow([team1, score1 + " - " + score2, team2])
 
 excel_sheet.close()
-
+    
