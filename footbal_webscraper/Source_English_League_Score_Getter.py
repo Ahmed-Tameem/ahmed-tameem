@@ -1,3 +1,9 @@
+"""
+#Author: Ahmed Tameem
+#Date: December 2, 2019
+#Comments: This was my first experiment with webscarping. After this, I started learning how to use APIs to scrape data.
+"""
+
 from bs4 import BeautifulSoup
 import requests
 import csv
