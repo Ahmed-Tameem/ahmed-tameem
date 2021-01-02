@@ -1,15 +1,19 @@
+"""
+Author:   Ahmed Tameem
+Date:     November ‎11, ‎2019
+Comments: This was my first software project. While it was very short, it served as a nice introduction
+          to OOP and was lots of fun to make and play.
+"""
 import turtle
 import random
 import math
 import winsound
 
+wn = turtle.Screen()    #Initializing the screen
+wn.bgcolor("black")     #Selecting the background color
+wn.title("The Bumpy Boi Game")  #Selecting the title of the game window
+wn.bgpic("background.gif")  #Selecting the background image
 
-wn = turtle.Screen()
-wn.bgcolor("black")
-wn.title("The Bumpy Boi Game")
-wn.bgpic("background.gif")
-# wn.register_shape("Player.gif")
-# wn.register_shape("minion.gif")
 
 class Player(turtle.Turtle):
     def __init__(self):
