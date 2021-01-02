@@ -1,21 +1,23 @@
 """
-Author:   Ahmed Tameem
-Date:     November ‎11, ‎2019
-Comments: This was my first software project. While it was very short, it served as a nice introduction
-          to OOP and was lots of fun to make and play.
+#Author:    Ahmed Tameem
+#Date:      November ‎11, ‎2019
+#Comments:  This was my first software project.  While it was very short, it
+#   served as a nice introduction
+#   to OOP and was lots of fun to make and play.
 """
+
 import turtle
 import random
 import math
 import winsound
 
-wn = turtle.Screen()    #Initializing the screen
-wn.bgcolor("black")     #Selecting the background color
-wn.title("The Bumpy Boi Game")  #Selecting the title of the game window
-wn.bgpic("background.gif")  #Selecting the background image
-
-
 class Player(turtle.Turtle):
+    """Generates the player's avatar and handles the logic of it's movement.
+
+    Attributes:
+        velocity (int): Decides how fast the player sprite travels across the screen.
+    """
+
     def __init__(self):
         turtle.Turtle.__init__(self)
         self.penup()
@@ -40,7 +42,7 @@ class Player(turtle.Turtle):
             self.forward(-5)
         else:
             self.forward(self.velocity)
-            
+
     def turnleft(self):
         self.left(30)
 
@@ -54,6 +56,10 @@ class Player(turtle.Turtle):
         self.velocity -= 1
 
 class Border(turtle.Turtle):
+    """Generates the border of the game.
+
+    Attributes: None.
+    """
     def __init__(self):
         turtle.Turtle.__init__(self)
         self.penup()
@@ -72,6 +78,12 @@ class Border(turtle.Turtle):
         self.goto(-300,-300)
 
 class Food(turtle.Turtle):
+    """Generates the food that the player eats for points.
+
+    Attributes:
+        velocity (int): Decides how fast the food sprite travels across the screen.
+    """
+
     amount = 4
     def __init__(self):
         turtle.Turtle.__init__(self)
@@ -98,6 +110,12 @@ class Food(turtle.Turtle):
             self.regenerate()
 
 class Traps(turtle.Turtle):
+    """Generates the traps that the player should avoid.
+
+    Attributes:
+        velocity (int): Decides how fast the traps sprite travels across the screen.
+    """
+
     amount = 2
     def __init__(self):
         turtle.Turtle.__init__(self)
@@ -124,6 +142,12 @@ class Traps(turtle.Turtle):
             self.regenerate()
 
 class Game(turtle.Turtle):
+    """Controls the score, collision detection, and ends the game when a trap is hit.
+
+    Attributes:
+        score (int): Keeps track of the player's score.
+    """
+
     def __init__(self):
         turtle.Turtle.__init__(self)
         self.penup()
@@ -135,93 +159,100 @@ class Game(turtle.Turtle):
 
     def update_score(self):
         self.clear()
-        self.write("Score : {}".format(self.score), False, align = "left", font =("Arial", 14, "normal"))
-    
+        self.write("Score : {}".format(self.score), False, align = "left",
+        font =("Arial", 14, "normal"))
+
     def change_score (self, points):
         self.score += points
         self.update_score()
 
-    def touch_checker(self, the_player, the_food):
+    @staticmethod
+    def touch_checker(the_player, the_food):
         x_dis = the_player.xcor() - the_food.xcor()
         y_dis = the_player.ycor() - the_food.ycor()
-        
+
         distance = math.sqrt((x_dis ** 2) + (y_dis ** 2))
 
-        if distance < 20:
-            return True
-        else:
-            return False
-
+        return distance < 20
 
     def update_game_status(self):
         self.goto(0,0)
         self.write("{}".format("Game Over"), False, align = "center", font =("Arial", 75, "normal"))
 
-    def game_over(self, the_player, the_traps):
+    @staticmethod
+    def game_over(the_player, the_traps):
         x_dis = the_player.xcor() - the_traps.xcor()
         y_dis = the_player.ycor() - the_traps.ycor()
 
         distance = math.sqrt((x_dis ** 2) + (y_dis ** 2))
 
-        if distance < 20:
-            return True
-        else:
-            return False
-            
+        return distance < 20
+
     def restart_game(self):
         pass
 
-    def play_eating_sound(self):
+    @staticmethod
+    def play_eating_sound():
         winsound.Beep(200, 10)
 
-    def play_game_over_sound(self):
+    @staticmethod
+    def play_game_over_sound():
         winsound.Beep(2000, 50)
 
-player = Player()
-border = Border()
-game = Game()
+def main():
 
-border.draw_border()
+    game_window = turtle.Screen()
+    game_window.bgcolor("black")
+    game_window.title("The Bumpy Boi Game")
+    game_window.bgpic("background.gif")
+
+    player = Player()
+    border = Border()
+    game = Game()
+
+    border.draw_border()
+
+    the_food = []
+
+    for _ in range(Food.amount):
+        the_food.append(Food())
+
+    the_traps = []
+
+    for _ in range(Traps.amount):
+        the_traps.append(Traps())
 
 
-the_food = []
+    game_window.listen()
+    game_window.onkey(player.turnleft, "Left")
+    game_window.onkey(player.turnright, "Right")
+    game_window.onkey(player.increasespeed, "Up")
+    game_window.onkey(player.decreasespeed, "Down")
 
-for i in range(Food.amount):
-    the_food.append(Food())
+    game_window.tracer(0)
 
-the_traps = []
+    game.change_score(0)
 
-for i in range(Traps.amount):
-    the_traps.append(Traps())
+    game_active = True
 
+    while game_active:
+        game_window.update()
+        player.move()
+        for food in the_food:
+            food.move()
+            if game.touch_checker(player, food):
+                food.regenerate()
+                game.play_eating_sound()
+                game.change_score(10)
+        for trap  in the_traps:
+            trap.move()
+            if game.game_over(player, trap):
+                game.play_game_over_sound()
+                game_active = False
 
-turtle.listen()
-turtle.onkey(player.turnleft, "Left")
-turtle.onkey(player.turnright, "Right")
-turtle.onkey(player.increasespeed, "Up")
-turtle.onkey(player.decreasespeed, "Down")
+    while not game_active:
+        game.update_game_status()
 
-wn.tracer(0)
-
-game.change_score(0)
-
-game_active = 1
-
-while game_active:
-    wn.update()
-    player.move()
-    for food in the_food:
-        food.move()
-        if game.touch_checker(player, food):
-            food.regenerate()
-            game.play_eating_sound()
-            game.change_score(10)
-    for trap  in the_traps:
-        trap.move()
-        if game.game_over(player, trap):
-            game.play_game_over_sound()
-            game_active = 0
-
-while not game_active:
-    game.update_game_status()
-
+if __name__ == "__main__":
+    main()
+    
